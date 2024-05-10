@@ -2,26 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const ApiError = require('../exceptions/api-error');
 const { getAvatarSize } = require('../service/file-service');
+const multer = require('multer');
+const userService = require('../service/user-service');
 
 class FileController {
-    async getFile(req, res, next) {
-        // const lang = req.params.lang;
-        // const filePath = path.join(__dirname, '..', 'translations', `${lang}.json`);
-        // fs.readFile(filePath, 'utf-8', (err, data) => {
-        //     if (err) {
-        //         return next(ApiError.BadRequest('Произошла ошибка при поиске файла переводов'));
-        //     }
-        //     try {
-        //         const jsonData = JSON.parse(data);
-        //         res.json(jsonData);
-        //     } catch(e) {
-        //         return next(ApiError.BadRequest('Произошла ошибка при парсинге файла переводов'));
-        //     }
-        // })
-    }
     async getAvatar(req, res, next) {
         try {
-            const {avatar_url = 'default.png'} = req.params;
+            const {path: avatar_url = 'default.png'} = req.params;
             let avatarPath = path.resolve(__dirname, '..', 'img', 'avatar', avatar_url);
             let avatarSize;
             try {
@@ -37,6 +24,26 @@ class FileController {
             fs.createReadStream(avatarPath).pipe(res);
         } catch (err) {
             next(err);
+        }
+    }
+    async setAvatar(req, res, next) {
+        try {
+            const {filename} = req.file;
+            const {id} = req.params;
+            const accessToken = (req.headers.authorization.split(' ')[1]);
+
+            const user = await userService.getUserByAccessToken(accessToken);
+
+
+            if (user.id !== +id) {
+                return next(ApiError.UnAccessedError())
+            }
+
+            await userService.setUserParamById(`https://networth.shodon.ru/api/file/avatar/${filename}`, 'avatar', id);
+
+            res.json('data')
+        } catch(e) {
+            next(e);
         }
     }
 }

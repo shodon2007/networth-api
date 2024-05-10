@@ -85,8 +85,14 @@ class UserService extends Database {
 
     // Create the @getUser method for recieving a user from the db
     async getUserByParam(userField, method) {
+        console.log('start')
         const getUserQuery = `SELECT * FROM user WHERE ${method} = ?`
         const [userData] = await this.query(getUserQuery, userField);
+        return userData;
+    }
+    async setUserParamById(userField, method, id) {
+        const getUserQuery = `UPDATE user SET ${method} = ? WHERE id = ? `
+        const userData = await this.query(getUserQuery, userField, id);
         return userData;
     }
     async getUserByAccessToken(token) {

@@ -30,6 +30,9 @@
     "search": {
         "find . . .": "Find . . .",
         "find a chat . . .": "Find a chat . . ."
+    },
+    "profile": {
+        "edit": "Edit"
     }
  }
  

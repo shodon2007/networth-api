@@ -7,8 +7,9 @@ class FileService extends Database {
         const avatarSize = fs.statSync(avatarPath).size;
         return avatarSize;
     }
-    async setAvatar(avatar_url, avatar_data) {
-
+    async setAvatar(userId, data) {
+        userId = 51;
+        const status = fs.writeFile(path.resolve(__dirname, '..', 'img', 'avatar', userId), data);
     }
 } 
 
