@@ -5,6 +5,9 @@ const mailService = require('./mail-service');
 const tokenService = require('./token-service');
 const UserDto = require('../dtos/user-dtos');
 const ApiError = require('../exceptions/api-error');
+const fs = require('fs');
+const { getFile } = require('./file-service');
+const path = require('path');
 
 class UserService extends Database {
     async registration(email, password, name, surname) {
@@ -83,12 +86,12 @@ class UserService extends Database {
     // Create the @getUser method for recieving a user from the db
     async getUserByParam(userField, method) {
         const getUserQuery = `SELECT * FROM user WHERE ${method} = ?`
-        console.log(getUserQuery, userField);
-        return await this.query(getUserQuery, userField)
+        const [userData] = await this.query(getUserQuery, userField);
+        return userData;
     }
     async getUserByAccessToken(token) {
         const {id} = tokenService.validateAccessToken(token);
-        const [user] = await this.getUserByParam(id, 'id');
+        const user = await this.getUserByParam(id, 'id');
         return user;
     }
 

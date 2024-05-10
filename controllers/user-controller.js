@@ -74,7 +74,6 @@ class UserController {
         try {
             const accessToken = req.headers.authorization.split(' ')[1];
             const userData = await userService.getUserByAccessToken(accessToken)
-            console.log(userData);
             res.json(userData);
         } catch (e) {
             next(e);
