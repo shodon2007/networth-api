@@ -79,6 +79,24 @@ class UserController {
             next(e);
         }
     }
+    async editUserProfile(req, res, next) {
+        try {
+            const isSuccess = userService.editProfile(req.body);
+            if (!isSuccess) {
+                return res.json({
+                    message: 'Неизвестная ошибка при изменении профиля',
+                    status: 500,
+                })
+            }
+
+            return res.json({
+                message: 'Пользователь успешно изменен',
+                status: 200
+            })
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new UserController();

@@ -100,6 +100,24 @@ class UserService extends Database {
         const user = await this.getUserByParam(id, 'id');
         return user;
     }
+    async editProfile(data) {
+        const dataEntries = Object.entries(data);
+        let query = 'UPDATE user SET'
+        if (dataEntries.length <= 0) {
+            return true;
+        }
+
+        dataEntries.forEach(([method, property], index) => {
+            query += ` ${method} = '${property}'`;
+            if (index !== dataEntries.length - 1) {
+                query += ','
+            }
+        });
+        query += ' WHERE id = ?'
+
+        await this.query(query, data.id);
+        return true;
+    }
 
     // Change a user's data by take @method param 
     // to point out the changing field and the

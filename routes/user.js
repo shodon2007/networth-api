@@ -17,6 +17,7 @@ router.post(
 
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
+router.post('/edit_profile', authMiddleware, userController.editUserProfile);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.get('/user_info', authMiddleware, userController.getUserInfo);
