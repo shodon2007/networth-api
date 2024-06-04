@@ -12,6 +12,6 @@ const storage = multer.memoryStorage({
 
 const upload = multer({ dest: 'img/avatar/', storage, });
 router.get('/avatar/:path', fileController.getAvatar);
-router.post('/avatar/', authMiddleware, upload.single('file'), fileController.setAvatar);
+router.post('/change_avatar', authMiddleware, upload.single('file'), fileController.setAvatar);
 
 module.exports = router;

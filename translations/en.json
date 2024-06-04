@@ -4,7 +4,10 @@
         "emailInput": "Enter email",
         "passwordInput": "Enter password",
         "submitButton": "Login",
-        "registrationButton": "Create account"
+        "registrationButton": "Create account",
+        "loginSuccessMessage": "You have successfully login",
+        "wrongPasswordMessage": "Wrong password",
+        "mailNotFoundMessage": "User with this email was not found"
     },
     "registration": {
         "title": "Registration",
@@ -13,7 +16,9 @@
         "email": "Enter email",
         "password": "Enter password",
         "submitButton": "Registration",
-        "loginButton": "Login"
+        "loginButton": "Login",
+        "registrationSuccessMessage": "You have successfully registered",
+        "mailExistsMessage": "This email is registered"
     },
     "sidebar": {
         "feed": "Feed",
@@ -32,7 +37,26 @@
         "find a chat . . .": "Find a chat . . ."
     },
     "profile": {
-        "edit": "Edit"
+        "editProfile": "Edit profiile",
+        "editPassword": "Edit password",
+        "editEmail": "Edit email",
+        "editEmailPrevText": "Your current email is ",
+        "editName": "Name",
+        "editSurname": "Surname",
+        "editButton": "Edit",
+        "oldPassword": "Current password",
+        "newPassword": "New password",
+        "newEmailInput": "Enter a new email",
+        "sendCode": "Send code",
+        "codeInput": "Enter a code",
+        "updateAvatar": "Update avatar",
+        "cancelButton": "Cancel",
+        "updatePhotoText": "Drag and drop some files here, or click to select files",
+        "updatePhotoOnFile": "Drop the files here..."
+    },
+    "translate": {
+        "parseErrorMessage": "Parsing translate data error",
+        "searchFileErrorMessage": "Finding translate data error"
     }
  }
  

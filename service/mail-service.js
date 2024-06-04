@@ -5,7 +5,7 @@ class MailService {
     constructor() {
         this.transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
-            port:process.env.SMTP_PORT,
+            port: process.env.SMTP_PORT,
             secure: true,
             auth: {
                 user: process.env.SMTP_USER,
@@ -14,7 +14,6 @@ class MailService {
         })
     }
     async sendActivationMail(email, link) {
-        console.log('отправление на почту', email);
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to: email,
@@ -27,7 +26,21 @@ class MailService {
                 </div>
             `
         });
-        console.log('на почту усшен')
+    }
+    async sendCode(email, code) {
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to: email,
+            subject: `Подтвердите почту ${email}`,
+            text: '',
+            html: `
+                <div>
+                    <h1>Подтвердите почту указав этот код в модалочке</h1>
+                    <span>${code}</span>
+                    <div>Не с уважение бот из networth</div>
+                </div>
+            `
+        });
     }
 }
 

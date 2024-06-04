@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
         }
         req.user = userData;
         next();
-    } catch(e) {
+    } catch (e) {
         return next(ApiError.UnauthorizedError());
     }
 }

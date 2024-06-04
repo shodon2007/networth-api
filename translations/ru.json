@@ -4,7 +4,10 @@
         "emailInput": "Введите почту",
         "passwordInput": "Введите пароль",
         "submitButton": "Войти",
-        "registrationButton": "Создать аккаунт"
+        "registrationButton": "Создать аккаунт",
+        "loginSuccessMessage": "Вы успешно вошли в свой аккаунт",
+        "wrongPasswordMessage": "Неправильный пароль",
+        "mailNotFoundMessage": "Пользователь с такой почтой не найден"
     },
     "registration": {
         "title": "Регистрация",
@@ -13,7 +16,9 @@
         "email": "Введите почту",
         "password": "Введите пароль",
         "submitButton": "Регистрация",
-        "loginButton": "Уже есть аккаунт? Войти"
+        "loginButton": "Уже есть аккаунт? Войти",
+        "registrationSuccessMessage": "Вы успешно зарегестрировались",
+        "mailExistsMessage": "Такая почта уже зарегестрирована"
     },
     "sidebar": {
         "feed": "Домой",
@@ -32,6 +37,25 @@
         "find a chat . . .": "Найти чат . . ."
     },
     "profile": {
-        "edit": "Изменить"
+        "editProfile": "Изменить профиль",
+        "editPassword": "Изменить пароль",
+        "editEmail": "Изменить почту",
+        "editEmailPrevText": "Ваша текущая почта ",
+        "editName": "Имя",
+        "editSurname": "Фамилия",
+        "editButton": "Изменить",
+        "oldPassword": "Текущий пароль",
+        "newPassword": "Новый пароль",
+        "newEmailInput": "Введите новую почту",
+        "sendCode": "Отправить код",
+        "codeInput": "Введите код",
+        "updateAvatar": "Обновить фотографию",
+        "cancelButton": "Отмена",
+        "updatePhotoText": "Перетащите файлы сюда или нажмите эту область чтобы выбрать фотографию",
+        "updatePhotoOnFile": "Отпустите мышку чтобы выбрать этот файл"
+    },
+    "translate": {
+        "parseErrorMessage": "Произошла ошибка при парсинге файлов переводов",
+        "searchFileErrorMessage": "Произошла ошибка при поиске файлов переводов"
     }
 }
