@@ -33,8 +33,10 @@
         "games": "Games"
     },
     "search": {
-        "find . . .": "Find . . .",
-        "find a chat . . .": "Find a chat . . ."
+        "find": "Find . . ."
+    },
+    "messanger": {
+	 "findChat": "Find a chat"
     },
     "profile": {
         "editProfile": "Edit profiile",
@@ -58,5 +60,5 @@
         "parseErrorMessage": "Parsing translate data error",
         "searchFileErrorMessage": "Finding translate data error"
     }
- }
+}
  

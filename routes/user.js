@@ -20,6 +20,7 @@ router.post('/send_code', authMiddleware, userController.sendCode);
 router.post('/change_email', authMiddleware, userController.changeEmail);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
+router.post('/delete', userController.deleteUser);
 router.post('/edit_profile', body('id').isNumeric(), authMiddleware, userController.editUserProfile);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);

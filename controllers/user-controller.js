@@ -16,8 +16,7 @@ class UserController {
             const { email, password, name, surname } = req.body;
             const userData = await userService.registration(email, password, name, surname);
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
-            console.log(req.headers, await translateText(req, 'registration.registrationSuccessMessage'));
-            return res.json({
+            return res.status(200).json({
                 message: await translateText(req, 'registration.registrationSuccessMessage'),
                 status: 200,
                 data: userData
@@ -48,6 +47,28 @@ class UserController {
             await userService.logout(refreshToken);
             res.clearCookie('refreshToken');
             return res.status(200).json({ message: 'Вы успешно вышли из аккаунта' });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async deleteUser(req, res, next) {
+        try {
+            const accessToken = req.headers.authorization.split(' ')[1];
+            const { id } = await userService.getUserByAccessToken(accessToken)
+            const isSuccess = userService.deleteUser(id);
+
+            if (!isSuccess) {
+                return res.json({
+                    message: 'Неизвестная ошибка при удалении профиля',
+                    status: 500,
+                })
+            }
+
+            return res.json({
+                message: 'Пользователь успешно удален',
+                status: 200
+            })
         } catch (e) {
             next(e);
         }

@@ -33,8 +33,10 @@
         "games": "Игры"
     },
     "search": {
-        "find . . .": "Найти . . .",
-        "find a chat . . .": "Найти чат . . ."
+        "find": "Найти . . ."
+    },
+    "messanger": {
+	"findChat": "Найти чат..."
     },
     "profile": {
         "editProfile": "Изменить профиль",

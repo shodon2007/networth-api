@@ -5,6 +5,7 @@ const mailService = require('./mail-service');
 const tokenService = require('./token-service');
 const UserDto = require('../dtos/user-dtos');
 const ApiError = require('../exceptions/api-error');
+const { deleteUser } = require('../controllers/user-controller');
 
 class UserService extends Database {
     async checkEmailIsEntry(email) {
@@ -127,6 +128,15 @@ class UserService extends Database {
         const { id } = tokenService.validateAccessToken(token);
         const user = await this.getUserByParam(id, 'id');
         return new UserDto(user);
+    }
+
+    async deleteUser(id) {
+        try {
+            await this.query("DELETE FROM user WHERE id = ?", id);
+            return true;
+        } catch {
+            return false;
+        }
     }
     // Update a full user info 
     async editProfile(data) {
