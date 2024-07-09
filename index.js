@@ -17,10 +17,6 @@ app.use(cookieParser());
 app.use('/api', router);
 app.use(errorMiddleware);
 
-app.get('/', (req, res) => {
-  res.send('hello d')
-})
-
 async function startServer(port) {
   try {
     app.listen(port, () => console.log(`Server started on PORT ${port}`));

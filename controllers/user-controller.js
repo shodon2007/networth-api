@@ -1,9 +1,7 @@
 const userService = require('../service/user-service');
 const { validationResult } = require('express-validator')
 const ApiError = require('../exceptions/api-error');
-const UserDto = require('../dtos/user-dtos');
 const mailService = require('../service/mail-service');
-const { v4 } = require('uuid');
 const { translateText } = require('../service/translation-service');
 
 class UserController {
