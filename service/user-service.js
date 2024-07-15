@@ -91,12 +91,11 @@ class UserService extends Database {
         if (!refreshToken) {
             throw ApiError.UnauthorizedError();
         }
-        const tokenIsValidate = tokenService.validateRefreshToken(refreshToken);
-        const user = await tokenService.findToken(refreshToken);
-        if (!tokenIsValidate || !user) {
+        const tokenIsValidate = await tokenService.validateRefreshToken(refreshToken);
+        if (!tokenIsValidate) {
             throw ApiError.UnauthorizedError();
         }
-
+        const user = await this.getUserByParam(tokenIsValidate.id, "id")
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({ ...userDto });
 
