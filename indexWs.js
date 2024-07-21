@@ -2,6 +2,7 @@ require('dotenv').config()
 const http = require('http')
 const express = require('express')
 const WebSocket = require('ws')
+const { memoryUsage } = require('process')
 
 // const cors = require('cors')
 
@@ -18,10 +19,14 @@ const wsServer = new WebSocket.Server({ server })
 
 wsServer.on('connection', ws => {
   ws.on('message', m => {
-    msg = m.toString()
-    console.log(msg)
-    if (msg != '')
-      wsServer.clients.forEach(client => client.send(m.toString()))
+
+    // Test function
+    // if (msg != '')
+    //   wsServer.clients.forEach(client => client.send(m.toString()))
+
+    // if (msg.msg == "Holla!") 
+      
+      
   })
 
 

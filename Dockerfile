@@ -1,0 +1,7 @@
+FROM node
+ENV MYSQL_ROOT_PASSWORD=2007
+COPY . .
+RUN npm install
+ENV SERVER_PORT 3000
+EXPOSE $SERVER_PORT
+CMD ["npm", "run", "start:prod"]

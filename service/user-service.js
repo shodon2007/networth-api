@@ -6,6 +6,7 @@ const tokenService = require('./token-service');
 const UserDto = require('../dtos/user-dtos');
 const ApiError = require('../exceptions/api-error');
 const { deleteUser } = require('../controllers/user-controller');
+const searchService = require('./search-service');
 
 class UserService extends Database {
     async checkEmailIsEntry(email) {
@@ -21,9 +22,10 @@ class UserService extends Database {
         const activationLink = uuid.v4();
 
         await this.query(
-            'INSERT INTO user (email, password, activationLink, name, surname, isActivated) VALUES (?, ?, ?, ?, ?, false)',
+            'INSERT INTO user (email, password, activationLink, name, surname, isActivated, privacy, avatar) VALUES (?, ?, ?, ?, ?, false, "public", "https://networth.shodon.ru/api/file/avatar/default.png")',
             email, hashPassword, activationLink, name, surname
         );
+        searchService.updateUserDocuments();
         const [user] = await this.query('SELECT * FROM user WHERE email = ?', email);
         await mailService.sendActivationMail(email, `${process.env.API_URL}/api/auth/activate/${activationLink}`);
 
@@ -92,12 +94,11 @@ class UserService extends Database {
         if (!refreshToken) {
             throw ApiError.UnauthorizedError();
         }
-        const tokenIsValidate = tokenService.validateRefreshToken(refreshToken);
-        const user = await tokenService.findToken(refreshToken);
-        if (!tokenIsValidate || !user) {
+        const tokenIsValidate = await tokenService.validateRefreshToken(refreshToken);
+        if (!tokenIsValidate) {
             throw ApiError.UnauthorizedError();
         }
-
+        const user = await this.getUserByParam(tokenIsValidate.id, "id")
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({ ...userDto });
 
@@ -120,6 +121,7 @@ class UserService extends Database {
     // user's parameter to its change and the new value
     async setUserParamById(fieldValue, method, id) {
         const getUserQuery = `UPDATE user SET ${method} = ? WHERE id = ? `
+        searchService.updateUserDocuments();
         const userData = await this.query(getUserQuery, fieldValue, id);
         return userData;
     }
@@ -133,6 +135,7 @@ class UserService extends Database {
     async deleteUser(id) {
         try {
             await this.query("DELETE FROM user WHERE id = ?", id);
+            searchService.updateUserDocuments();
             return true;
         } catch {
             return false;
@@ -155,6 +158,7 @@ class UserService extends Database {
         query += ' WHERE id = ?'
 
         await this.query(query, data.id);
+        searchService.updateUserDocuments();
         return true;
     }
 
@@ -168,6 +172,7 @@ class UserService extends Database {
         const changeUserMailQueryData = [newData, user.name]
 
         const res = await this.query(changeUserMailQuery, changeUserMailQueryData)
+        searchService.updateUserDocuments();
         return res;
     }
 }

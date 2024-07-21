@@ -1,4 +1,5 @@
 require('dotenv').config();
+require("./service/search-service");
 const express = require("express");
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -7,6 +8,7 @@ const router = require('./routes');
 const errorMiddleware = require('./middlewares/error-middleware');
 const app = express()
 const PORT = process.env.PORT ?? 9999;
+
 
 app.use(bodyParser.json());
 app.use(express.json());

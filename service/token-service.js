@@ -23,7 +23,7 @@ class TokenService extends Database {
         try {
             const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
             return userData;
-        } catch(e) {
+        } catch (e) {
             return null;
         }
     }
@@ -32,7 +32,7 @@ class TokenService extends Database {
         try {
             const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
             return userData;
-        } catch(e) {
+        } catch (e) {
             return null;
         }
     }
@@ -45,12 +45,6 @@ class TokenService extends Database {
     async saveToken(userId, refreshToken) {
         await this.query('UPDATE user SET refresh_token = ? WHERE id = ? ', refreshToken, userId);
         return refreshToken;
-    }
-
-    async findToken(refreshToken) {
-        const [user] = await this.query('SELECT * FROM user WHERE refresh_token = ?', refreshToken);
-
-        return user;
     }
 }
 
