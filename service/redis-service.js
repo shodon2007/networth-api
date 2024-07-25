@@ -23,6 +23,10 @@ class Redis {
   }
 
   async setH() {
+
+  }
+
+  async getH() {
     
   }
 }
