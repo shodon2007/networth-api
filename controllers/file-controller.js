@@ -31,7 +31,7 @@ class FileController {
 
             const user = await userService.getUserByAccessToken(accessToken);
             const fileName = await fileService.saveAvatar(req.file);
-            await userService.setUserParamById(`https://networth.shodon.ru/api/file/avatar/${fileName}`, 'avatar', user.id);
+            await userService.setUserParamById(fileName, 'avatar', user.id);
 
             const data = await userService.getUserByParam(user.id, 'id')
 

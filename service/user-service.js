@@ -22,7 +22,7 @@ class UserService extends Database {
         const activationLink = uuid.v4();
 
         await this.query(
-            'INSERT INTO user (email, password, activationLink, name, surname, isActivated, privacy, avatar) VALUES (?, ?, ?, ?, ?, false, "public", "https://networth.shodon.ru/api/file/avatar/default.png")',
+            'INSERT INTO user (email, password, activationLink, name, surname, isActivated, privacy, avatar) VALUES (?, ?, ?, ?, ?, false, "public", "default.png")',
             email, hashPassword, activationLink, name, surname
         );
         searchService.updateUserDocuments();
@@ -37,7 +37,7 @@ class UserService extends Database {
     }
 
     async login(email, password) {
-        const res = await this.query(`
+        const [userData] = await this.query(`
         SELECT 
             email, name, surname, id, isActivated, avatar, password
         FROM 
@@ -46,15 +46,16 @@ class UserService extends Database {
             email = ?
         `, email);
 
-        if (res.length === 0) {
+
+        if (userData.length === 0) {
             throw ApiError.BadRequest(`login.mailNotFoundMessage`);
         }
-        const isPasswordEqual = await bcrypt.compare(password, res[0].password);
+        const isPasswordEqual = await bcrypt.compare(password, userData[0].password);
         if (!isPasswordEqual) {
             throw ApiError.BadRequest('login.wrongPasswordMessage');
         }
 
-        const userDto = new UserDto(res[0]);
+        const userDto = new UserDto(userData[0]);
         const tokens = tokenService.generateTokens({ ...userDto });
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);

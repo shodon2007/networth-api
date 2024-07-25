@@ -3,11 +3,20 @@ const Database = require("../db");
 
 
 class SearchService extends Database {
+    isInit = false;
     constructor() {
         super();
+        this.initSearchService();
+    }
+    async initSearchService() {
+        const apiKey = await fetch(`${process.env.SEARCH_URL}/keys`, {
+            headers: {
+                Authorization: `Bearer ${process.env.SEARCH_MASTER_KEY}`
+            }
+        }).then(res => res.json()).then(res => res.results[0].key);
         this.client = new MeiliSearch({
-            host: 'http://127.0.0.1:7700',
-            apiKey: 'masterKey',
+            host: process.env.SEARCH_URL,
+            apiKey: process.env.SEARCH_MASTER_KEY,
         });
         this.initUserIndex();
     }

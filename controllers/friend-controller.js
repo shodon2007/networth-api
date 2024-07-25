@@ -26,6 +26,7 @@ class FriendController {
             console.log("text: ", searchText);
             const userId = req.user.id;
             const search = await searchService.searchUser(searchText, userId);
+            console.log(search);
             res.json(search.hits);
         } catch (e) {
             next(e)
