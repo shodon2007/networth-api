@@ -22,5 +22,7 @@ class Redis {
     await this.client.set(key, data)
   }
 
-  
+  async setH() {
+    
+  }
 }
