@@ -9,11 +9,6 @@ class SearchService extends Database {
         this.initSearchService();
     }
     async initSearchService() {
-        const apiKey = await fetch(`${process.env.SEARCH_URL}/keys`, {
-            headers: {
-                Authorization: `Bearer ${process.env.SEARCH_MASTER_KEY}`
-            }
-        }).then(res => res.json()).then(res => res.results[0].key);
         this.client = new MeiliSearch({
             host: process.env.SEARCH_URL,
             apiKey: process.env.SEARCH_MASTER_KEY,
@@ -42,13 +37,31 @@ class SearchService extends Database {
         await this.userIndex.updateDocuments(documents);
     }
 
-    async searchUser(text, userId) {
+    async searchUser(text, userId, page) {
         const userFriends = await this.query("SELECT user_id, friend_id FROM friend WHERE friend_id = ? OR user_id = ?", userId, userId);
         const search = await this.userIndex.search(text, {
-            limit: 1000,
+            page: page,
             filter: [...userFriends.map(friend => `id != ${friend.user_id === userId ? friend.friend_id : friend.user_id}`), `id != ${userId}`]
         });
         return search;
+    }
+    async searchFriends(text, userId) {
+        const userFriends = await this.query("SELECT user_id, friend_id FROM friend WHERE (friend_id = ? OR user_id = ?) AND accepted = 1", userId, userId);
+        if (!text) {
+            text = " "
+        }
+        const friendIds = userFriends.map(friend => friend.user_id === userId ? friend.friend_id : friend.user_id);
+        let filters = friendIds.map(id => `id = ${id}`).join(' OR ');
+
+        if (userFriends.length === 0) {
+            return []
+        }
+
+        const search = await this.userIndex.search(text, {
+            limit: 10000,
+            filter: [`(${filters})`, `id != ${userId}`]
+        })
+        return search.hits;
     }
 }
 

@@ -37,7 +37,7 @@ class UserService extends Database {
     }
 
     async login(email, password) {
-        const [userData] = await this.query(`
+        const userData = await this.query(`
         SELECT 
             email, name, surname, id, isActivated, avatar, password
         FROM 
@@ -45,7 +45,6 @@ class UserService extends Database {
         WHERE 
             email = ?
         `, email);
-
 
         if (userData.length === 0) {
             throw ApiError.BadRequest(`login.mailNotFoundMessage`);

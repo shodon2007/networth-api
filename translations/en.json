@@ -1,64 +1,89 @@
 {
-    "login": {
-        "title": "Login",
-        "emailInput": "Enter email",
-        "passwordInput": "Enter password",
-        "submitButton": "Login",
-        "registrationButton": "Create account",
-        "loginSuccessMessage": "You have successfully login",
-        "wrongPasswordMessage": "Wrong password",
-        "mailNotFoundMessage": "User with this email was not found"
-    },
-    "registration": {
-        "title": "Registration",
-        "name": "Enter name",
-        "surname": "Enter surname",
-        "email": "Enter email",
-        "password": "Enter password",
-        "submitButton": "Registration",
-        "loginButton": "Login",
-        "registrationSuccessMessage": "You have successfully registered",
-        "mailExistsMessage": "This email is registered"
-    },
-    "sidebar": {
-        "feed": "Feed",
-        "myProfile": "My Profile",
-        "friends": "Friends",
-        "stories": "Stories",
-        "channels": "Channels",
-        "music": "Music",
-        "notifications": "Notifications",
-        "messanger": "Messanger",
-        "settings": "Settings",
-        "games": "Games"
-    },
-    "search": {
-        "find": "Find . . ."
-    },
-    "messanger": {
-	 "findChat": "Find a chat"
-    },
-    "profile": {
-        "editProfile": "Edit profiile",
-        "editPassword": "Edit password",
-        "editEmail": "Edit email",
-        "editEmailPrevText": "Your current email is ",
-        "editName": "Name",
-        "editSurname": "Surname",
-        "editButton": "Edit",
-        "oldPassword": "Current password",
-        "newPassword": "New password",
-        "newEmailInput": "Enter a new email",
-        "sendCode": "Send code",
-        "codeInput": "Enter a code",
-        "updateAvatar": "Update avatar",
-        "cancelButton": "Cancel",
-        "updatePhotoText": "Drag and drop some files here, or click to select files",
-        "updatePhotoOnFile": "Drop the files here..."
-    },
-    "translate": {
-        "parseErrorMessage": "Parsing translate data error",
-        "searchFileErrorMessage": "Finding translate data error"
-    }
+  "login": {
+    "title": "Login",
+    "emailInput": "Enter email",
+    "passwordInput": "Enter password",
+    "submitButton": "Login",
+    "registrationButton": "Create account",
+    "loginSuccessMessage": "You have successfully login",
+    "wrongPasswordMessage": "Wrong password",
+    "mailNotFoundMessage": "User with this email was not found"
+  },
+  "registration": {
+    "title": "Registration",
+    "name": "Enter name",
+    "surname": "Enter surname",
+    "email": "Enter email",
+    "password": "Enter password",
+    "submitButton": "Registration",
+    "loginButton": "Login",
+    "registrationSuccessMessage": "You have successfully registered",
+    "mailExistsMessage": "This email is registered"
+  },
+  "sidebar": {
+    "feed": "Feed",
+    "myProfile": "My Profile",
+    "friends": "Friends",
+    "stories": "Stories",
+    "channels": "Channels",
+    "music": "Music",
+    "notifications": "Notifications",
+    "messanger": "Messanger",
+    "settings": "Settings",
+    "games": "Games"
+  },
+  "search": {
+    "find": "Find . . ."
+  },
+  "messanger": {
+    "findChat": "Find a chat"
+  },
+  "profile": {
+    "editProfile": "Edit profiile",
+    "editPassword": "Edit password",
+    "editEmail": "Edit email",
+    "editEmailPrevText": "Your current email is ",
+    "editName": "Name",
+    "editSurname": "Surname",
+    "editButton": "Edit",
+    "oldPassword": "Current password",
+    "newPassword": "New password",
+    "newEmailInput": "Enter a new email",
+    "sendCode": "Send code",
+    "codeInput": "Enter a code",
+    "updateAvatar": "Update avatar",
+    "cancelButton": "Cancel",
+    "updatePhotoText": "Drag and drop some files here, or click to select files",
+    "updatePhotoOnFile": "Drop the files here..."
+  },
+  "translate": {
+    "parseErrorMessage": "Parsing translate data error",
+    "searchFileErrorMessage": "Finding translate data error"
+  },
+  "friends": {
+    "navbarMyFriendsPage": "My friends",
+    "navbarRequestsPage": "Friend requests",
+    "navbarSearchPage": "Search users",
+    "searchPageEmpty": "Search empty",
+    "searchPageSendRequest": "Send request",
+    "searchPageCancelSendRequest": "Cancel request",
+    "friendsPageEmpty": "Friends empty :(",
+    "friendsPageDeleteFriend": "Delete friend",
+    "friendsPageDeletedText": "You delete this friend",
+    "friendsPageToProfileLink": "Watch profile",
+    "friendsPageWriteMessage": "Write message",
+    "friendRequestPageReceived": "Received",
+    "friendRequestPageSended": "Sended",
+    "requestPageLoading": "Loading...",
+    "requestPageEmpty": "Empty",
+    "requestPageAccept": "Accept",
+    "requestPageReject": "Reject",
+    "requestPageAccepted": "You accepted request",
+    "requestPageRejected": "You rejected request",
+    "requestPageCancel": "Cancel",
+    "requestPageCanceled": "You canceled request",
+    "searchUsers": "Search users",
+    "searchFriends": "Search friends",
+    "myFriendsLoading": "Loading..."
+  }
 }
- 

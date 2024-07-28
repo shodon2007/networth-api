@@ -35,6 +35,7 @@ class UserController {
                 data: userData,
             });
         } catch (e) {
+            console.log(e)
             next(e);
         }
     }
