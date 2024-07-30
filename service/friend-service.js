@@ -4,7 +4,7 @@ class FriendService extends Database {
     async addNewFriendRequest(userId, friendId) {
         try {
             const userFriendList = await this.query(`
-                SELECT id FROM friend 
+                SELECT id FROM friends
                 WHERE (user_id = ? AND friend_id = ?) OR (friend_id = ? AND user_id = ?)
             `, userId, friendId, userId, friendId);
             const isNotFriends = userFriendList.length === 0;
@@ -14,7 +14,7 @@ class FriendService extends Database {
                     data: false
                 }
             }
-            await this.query("INSERT INTO friend (user_id, friend_id, accepted) VALUES (?, ?, 0)", userId, friendId);
+            await this.query("INSERT INTO friends (user_id, friend_id, accepted) VALUES (?, ?, 0)", userId, friendId);
             return {
                 message: "Вы успешно отправили запрос в друзья",
                 data: true
@@ -29,7 +29,7 @@ class FriendService extends Database {
     async rejectFriendRequest(userId, friendId) {
         try {
             await this.query(`
-                DELETE FROM friend 
+                DELETE FROM friends 
                 WHERE (user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?)
             `, userId, friendId, friendId, userId);
 
@@ -49,10 +49,10 @@ class FriendService extends Database {
     async getFriendRequestList(userId) {
         try {
             const reqList = await this.query(`
-                SELECT user.id, user.name, user.surname, user.email, user.avatar, user.phone_number 
-                FROM friend 
-                INNER JOIN user ON friend.user_id = user.id 
-                WHERE friend_id = ? AND friend.accepted = 0
+                SELECT users.id, users.name, users.surname, users.email, users.avatar, users.phone_number 
+                FROM friends 
+                INNER JOIN users ON friend.user_id = users.id 
+                WHERE friend_id = ? AND friends.accepted = 0
             `, userId);
 
             return {
@@ -70,10 +70,10 @@ class FriendService extends Database {
     async getSendFriendRequestList(userId) {
         try {
             const reqList = await this.query(`
-                SELECT user.id, user.name, user.surname, user.email, user.avatar, user.phone_number 
-                FROM friend 
-                INNER JOIN user ON friend.friend_id = user.id 
-                WHERE user_id = ? AND friend.accepted = 0
+                SELECT users.id, users.name, users.surname, users.email, users.avatar, users.phone_number 
+                FROM friends 
+                INNER JOIN users ON friends.friend_id = users.id 
+                WHERE user_id = ? AND friends.accepted = 0
             `, userId);
 
             return {
@@ -91,7 +91,7 @@ class FriendService extends Database {
     async acceptFriendRequest(userId, friendId) {
         try {
             await this.query(`
-                UPDATE friend 
+                UPDATE friends
                 SET accepted = 1 
                 WHERE user_id = ? AND friend_id = ?
             `, friendId, userId);
@@ -111,7 +111,7 @@ class FriendService extends Database {
     async deleteFriend(userId, friendId) {
         try {
             await this.query(`
-                DELETE FROM friend 
+                DELETE FROM friends 
                 WHERE (user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?)
             `, userId, friendId, friendId, userId)
             return {

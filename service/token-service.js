@@ -38,12 +38,12 @@ class TokenService extends Database {
     }
 
     async removeToken(refreshToken) {
-        await this.query('UPDATE user SET refresh_token = "" WHERE refresh_token = ?', refreshToken);
+        await this.query('UPDATE users SET refresh_token = "" WHERE refresh_token = ?', refreshToken);
         return true;
     }
 
     async saveToken(userId, refreshToken) {
-        await this.query('UPDATE user SET refresh_token = ? WHERE id = ? ', refreshToken, userId);
+        await this.query('UPDATE users SET refresh_token = ? WHERE id = ? ', refreshToken, userId);
         return refreshToken;
     }
 }

@@ -20,7 +20,7 @@ class SearchService extends Database {
             this.userIndex = this.client.index("user");
         }
 
-        const documents = await this.query("SELECT id, email, name, surname, avatar FROM user WHERE privacy = 'public'");
+        const documents = await this.query("SELECT id, email, name, surname, avatar FROM users WHERE privacy = 'public'");
         await this.userIndex.addDocuments(documents);
         this.userIndex.updateSearchableAttributes([
             "email", "name", "surname",
@@ -33,12 +33,12 @@ class SearchService extends Database {
         ])
     }
     async updateUserDocuments() {
-        const documents = await this.query("SELECT id, email, name, surname, avatar FROM user WHERE privacy = 'public'");
+        const documents = await this.query("SELECT id, email, name, surname, avatar FROM users WHERE privacy = 'public'");
         await this.userIndex.updateDocuments(documents);
     }
 
     async searchUser(text, userId, page) {
-        const userFriends = await this.query("SELECT user_id, friend_id FROM friend WHERE friend_id = ? OR user_id = ?", userId, userId);
+        const userFriends = await this.query("SELECT user_id, friend_id FROM friends WHERE friend_id = ? OR user_id = ?", userId, userId);
         const search = await this.userIndex.search(text, {
             page: page,
             filter: [...userFriends.map(friend => `id != ${friend.user_id === userId ? friend.friend_id : friend.user_id}`), `id != ${userId}`]
@@ -46,7 +46,7 @@ class SearchService extends Database {
         return search;
     }
     async searchFriends(text, userId) {
-        const userFriends = await this.query("SELECT user_id, friend_id FROM friend WHERE (friend_id = ? OR user_id = ?) AND accepted = 1", userId, userId);
+        const userFriends = await this.query("SELECT user_id, friend_id FROM friends WHERE (friend_id = ? OR user_id = ?) AND accepted = 1", userId, userId);
         if (!text) {
             text = " "
         }

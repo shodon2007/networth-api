@@ -10,7 +10,7 @@ const searchService = require('./search-service');
 
 class UserService extends Database {
     async checkEmailIsEntry(email) {
-        const res = await this.query('SELECT * FROM user WHERE email = ?', email);
+        const res = await this.query('SELECT * FROM users WHERE email = ?', email);
         return res;
     }
     async registration(email, password, name, surname) {
@@ -22,11 +22,11 @@ class UserService extends Database {
         const activationLink = uuid.v4();
 
         await this.query(
-            'INSERT INTO user (email, password, activationLink, name, surname, isActivated, privacy, avatar) VALUES (?, ?, ?, ?, ?, false, "public", "default.png")',
+            'INSERT INTO users (email, password, activationLink, name, surname, isActivated, privacy, avatar) VALUES (?, ?, ?, ?, ?, false, "public", "default.png")',
             email, hashPassword, activationLink, name, surname
         );
         searchService.updateUserDocuments();
-        const [user] = await this.query('SELECT * FROM user WHERE email = ?', email);
+        const [user] = await this.query('SELECT * FROM users WHERE email = ?', email);
         await mailService.sendActivationMail(email, `${process.env.API_URL}/api/auth/activate/${activationLink}`);
 
         const userDto = new UserDto(user);
@@ -41,7 +41,7 @@ class UserService extends Database {
         SELECT 
             email, name, surname, id, isActivated, avatar, password
         FROM 
-            user 
+            users
         WHERE 
             email = ?
         `, email);
@@ -65,7 +65,7 @@ class UserService extends Database {
         SELECT 
             email, name, surname, id, isActivated, avatar , password
         FROM 
-            user 
+            users
         WHERE 
             id = ?
         `, userId);
@@ -85,7 +85,7 @@ class UserService extends Database {
     }
 
     async activate(activateLink) {
-        const activateQuery = 'UPDATE user SET isActivated = 1 WHERE activationLink = ?'
+        const activateQuery = 'UPDATE users SET isActivated = 1 WHERE activationLink = ?'
         await this.query(activateQuery, activateLink);
         return true;
     }
@@ -107,12 +107,12 @@ class UserService extends Database {
     }
     // Retrieve all users from the database
     async getAllUsers() {
-        return await this.query('SELECT * FROM user');
+        return await this.query('SELECT * FROM users');
     }
 
     // Create the @getUser method for recieving a user from the db
     async getUserByParam(userField, method) {
-        const getUserQuery = `SELECT * FROM user WHERE ${method} = ?`
+        const getUserQuery = `SELECT * FROM users WHERE ${method} = ?`
         const [userData] = await this.query(getUserQuery, userField);
         return userData;
     }
@@ -120,9 +120,9 @@ class UserService extends Database {
     // Update a user's database column info by provide the 
     // user's parameter to its change and the new value
     async setUserParamById(fieldValue, method, id) {
-        const getUserQuery = `UPDATE user SET ${method} = ? WHERE id = ? `
+        const getUserQuery = `UPDATE users SET ? = ? WHERE id = ? `
         searchService.updateUserDocuments();
-        const userData = await this.query(getUserQuery, fieldValue, id);
+        const userData = await this.query(getUserQuery, method, fieldValue, id);
         return userData;
     }
     // Retrieve the user from the database by an access token 
@@ -134,7 +134,7 @@ class UserService extends Database {
 
     async deleteUser(id) {
         try {
-            await this.query("DELETE FROM user WHERE id = ?", id);
+            await this.query("DELETE FROM users WHERE id = ?", id);
             searchService.updateUserDocuments();
             return true;
         } catch {
@@ -143,21 +143,9 @@ class UserService extends Database {
     }
     // Update a full user info 
     async editProfile(data) {
-        const dataEntries = Object.entries(data);
-        let query = 'UPDATE user SET'
-        if (dataEntries.length <= 0) {
-            return true;
-        }
+        let query = 'UPDATE users SET name = ?, surname = ? WHERE id = ?'
 
-        dataEntries.forEach(([method, property], index) => {
-            query += ` ${method} = '${property}'`;
-            if (index !== dataEntries.length - 1) {
-                query += ','
-            }
-        });
-        query += ' WHERE id = ?'
-
-        await this.query(query, data.id);
+        await this.query(query, data.name, data.surname, data.id);
         searchService.updateUserDocuments();
         return true;
     }
@@ -167,9 +155,9 @@ class UserService extends Database {
     async changeUserData(token, method, newData) {
         // Validate the user by the validating method for accessing they data
         const user = tokenService.validateAccessToken(token)
-        if (user.err) throw ApiError('While changeing user data happened an error');
-        const changeUserMailQuery = `UPDATE user SET ${method} = ? WHERE name = ?`
-        const changeUserMailQueryData = [newData, user.name]
+        if (user.err) throw ApiError('While changeing users data happened an error');
+        const changeUserMailQuery = `UPDATE users SET ? = ? WHERE name = ?`
+        const changeUserMailQueryData = [method, newData, user.name]
 
         const res = await this.query(changeUserMailQuery, changeUserMailQueryData)
         searchService.updateUserDocuments();
