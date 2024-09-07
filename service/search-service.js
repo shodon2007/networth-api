@@ -46,7 +46,7 @@ class SearchService extends Database {
         return search;
     }
     async searchFriends(text, userId) {
-        const userFriends = await this.query("SELECT user_id, friend_id FROM friends WHERE (friend_id = ? OR user_id = ?) AND accepted = 1", userId, userId);
+        const userFriends = await this.query("SELECT user_id, friend_id FROM friend_lists WHERE (friend_id = ? OR user_id = ?) AND accepted = 1", userId, userId);
         if (!text) {
             text = " "
         }
